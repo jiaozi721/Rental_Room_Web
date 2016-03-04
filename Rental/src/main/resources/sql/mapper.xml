@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.rentalservice.mapper.Mapper">
+
+	<resultMap type="net.rentalservice.entity.Room" id="RoomResultMap">
+		<id property="id" column="id"/>
+		<result property="name" column="name"/>
+		<result property="admitted" column="admitted"/>
+		<result property="price" column="price"/>
+		<result property="state" column="state"/>
+		<result property="infor" column="infor"/>
+		<result property="img" column="img"/>
+	</resultMap>
+	
+	<resultMap type="net.rentalservice.entity.Member" id="MemberResultMap">
+		<id property="id" column="id"/>
+		<result property="password" column="password"/>
+		<result property="name" column="name"/>
+		<result property="email" column="email"/>
+		<result property="phone" column="phone"/>
+	</resultMap>
+	
+    <select id="getRooms" resultMap="RoomResultMap">
+		SELECT * FROM room
+	</select>
+	
+	<select id="inqueryRoom" parameterType="int" resultMap="RoomResultMap">
+		SELECT * FROM room WHERE id=#{id}
+	</select>
+	
+	<insert id="insertRoom" parameterType="net.rentalservice.entity.Room">
+		INSERT INTO room values(#{id},#{name},#{admitted},#{price},#{state},#{infor},#{img})
+	</insert>
+	
+	<update id="updateRoom" parameterType="int">
+		UPDATE room
+		SET
+		state='used'
+		WHERE id=#{id}
+	</update>
+	
+	<delete id="deleteRoom" parameterType="int">
+		DELETE FROM room WHERE id=#{id}
+	</delete>
+	
+	
+	<select id="searchMember" parameterType="String" resultMap="MemberResultMap">
+		SELECT * FROM customer WHERE id=#{id}
+	</select>
+	
+	<select id="inqueryMember" parameterType="java.util.Map" resultMap="MemberResultMap">
+		SELECT * FROM customer WHERE id=#{id} and password=#{password}
+	</select>
+	
+	<insert id="insertMember" parameterType="net.rentalservice.entity.Member">
+		INSERT INTO customer values(#{id},#{password},#{name},#{email},#{phone})
+	</insert>
+	
+	<update id="updateMember" parameterType="net.rentalservice.entity.Member">
+		UPDATE customer
+		SET password=#{password},
+		email=#{email},
+		phone=#{phone}
+		WHERE id=#{id}
+	</update>
+	
+	<delete id="deleteMember" parameterType="int">
+		DELETE FROM customer WHERE id=#{id}
+	</delete>
+</mapper>
+
